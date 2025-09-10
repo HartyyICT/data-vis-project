@@ -1,46 +1,58 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const content = document.getElementById('content');
+  const content = document.getElementById("content");
 
-  // Laad eerst de intro pagina
-  loadPage('pages/intro-page.html', 'css/intro.css');
+  // Navbar laden
+  loadNavbar();
 
+  // Eerste pagina die je wilt laden
+  loadPage("pages/home-page.html", "css/home.css");
+
+  // script om pagina's in te laden
   function loadPage(pageUrl, styleUrl) {
-    // Oude dynamische stylesheet verwijderen (als aanwezig)
-    const oldLink = document.querySelector('link[data-dynamic-style]');
+    // Oude stylesheet verwijderen
+    const oldLink = document.querySelector("link[data-dynamic-style]");
     if (oldLink) oldLink.remove();
 
     // Nieuwe stylesheet toevoegen
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
     link.href = styleUrl;
-    link.setAttribute('data-dynamic-style', 'true');
+    link.setAttribute("data-dynamic-style", "true");
     document.head.appendChild(link);
 
     // HTML inladen
     fetch(pageUrl)
-      .then(response => response.text())
+      .then(res => res.text())
       .then(data => {
         content.innerHTML = data;
-
-        // fade-in toepassen
-        content.classList.remove('show'); // reset
-        setTimeout(() => {
-          content.classList.add('show');
-        }, 50);
-
-        // Als we op de intro zijn, maak hele scherm klikbaar
-        if (pageUrl.includes('intro-page.html')) {
-          const intro = document.getElementById('intro');
-          intro.addEventListener('click', () => {
-            // fade-out starten
-            intro.classList.add('fade-out');
-
-            // Wacht tot de animatie klaar is (0.8s)
-            setTimeout(() => {
-              loadPage('pages/home-page.html', 'css/home.css');
-            }, 800);
-          });
-        }
       });
+  }
+
+  // navbar script om in te laden
+  function loadNavbar() {
+    if (!document.getElementById("navbar")) {
+      fetch("pages/navbar.html")
+        .then(res => res.text())
+        .then(data => {
+          const navContainer = document.createElement("div");
+          navContainer.innerHTML = data;
+          document.body.prepend(navContainer);
+
+          // Navbar CSS toevoegen
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = "css/navbar.css";
+          document.head.appendChild(link);
+
+          // Event listener voor Home
+          const navHome = document.getElementById("nav-home");
+          if (navHome) {
+            navHome.addEventListener("click", (e) => {
+              e.preventDefault();
+              loadPage("pages/home-page.html", "css/home.css");
+            });
+          }
+        });
+    }
   }
 });

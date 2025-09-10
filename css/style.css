@@ -1,24 +1,37 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 20px;
+  padding: 0;
   background-color: white;
 }
 
-h1 {
-  color: #333;
-}
-
-p {
-  font-size: 1.1rem;
-  color: #555;
-}
-
 #content {
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
+  overflow: hidden;
 }
 
-#content.show {
-  opacity: 1;
+/* Algemene animaties */
+.slide-in {
+  animation: slideIn 0.8s ease forwards;
+}
+
+.slide-out {
+  animation: slideOut 0.8s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
 }
