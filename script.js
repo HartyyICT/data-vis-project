@@ -38,11 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
           navContainer.innerHTML = data;
           document.body.prepend(navContainer);
 
-          // Navbar CSS toevoegen
-          const link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.href = "css/navbar.css";
-          document.head.appendChild(link);
+          // Navbar CSS toevoegen (alleen als nog niet geladen)
+          if (!document.querySelector('link[href="css/navbar.css"]')) {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = "css/navbar.css";
+            document.head.appendChild(link);
+          }
 
           // Event listener voor Home
           const navHome = document.getElementById("nav-home");
