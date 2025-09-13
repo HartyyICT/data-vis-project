@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Eerste pagina die je wilt laden
   loadPage("pages/home-page.html", "css/home.css");
 
-  // script om pagina's in te laden
+  // Functie om pagina's dynamisch te laden
   function loadPage(pageUrl, styleUrl) {
     // Oude stylesheet verwijderen
     const oldLink = document.querySelector("link[data-dynamic-style]");
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // navbar script om in te laden
+  // Navbar inladen
   function loadNavbar() {
     if (!document.getElementById("navbar")) {
       fetch("pages/navbar.html")
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
           navContainer.innerHTML = data;
           document.body.prepend(navContainer);
 
-          // Navbar CSS toevoegen (alleen als nog niet geladen)
+          // Navbar CSS toevoegen (eenmalig)
           if (!document.querySelector('link[href="css/navbar.css"]')) {
             const link = document.createElement("link");
             link.rel = "stylesheet";
@@ -46,15 +46,44 @@ document.addEventListener("DOMContentLoaded", () => {
             document.head.appendChild(link);
           }
 
-          // Event listener voor Home
-          const navHome = document.getElementById("nav-home");
-          if (navHome) {
-            navHome.addEventListener("click", (e) => {
-              e.preventDefault();
-              loadPage("pages/home-page.html", "css/home.css");
-            });
-          }
+          // Event listeners koppelen
+          setupNavbarListeners();
         });
+    }
+  }
+
+  // Event listeners voor navigatie
+  function setupNavbarListeners() {
+    const navHome = document.getElementById("nav-home");
+    if (navHome) {
+      navHome.addEventListener("click", (e) => {
+        e.preventDefault();
+        loadPage("pages/home-page.html", "css/home.css");
+      });
+    }
+
+    const navAbout = document.getElementById("nav-about");
+    if (navAbout) {
+      navAbout.addEventListener("click", (e) => {
+        e.preventDefault();
+        loadPage("pages/about-me-page.html", "css/about-me.css");
+      });
+    }
+
+    const navProjects = document.getElementById("nav-projects");
+    if (navProjects) {
+      navProjects.addEventListener("click", (e) => {
+        e.preventDefault();
+        loadPage("pages/projects.html", "css/projects.css");
+      });
+    }
+
+    const navContact = document.getElementById("nav-contact");
+    if (navContact) {
+      navContact.addEventListener("click", (e) => {
+        e.preventDefault();
+        loadPage("pages/contact.html", "css/contact.css");
+      });
     }
   }
 });
